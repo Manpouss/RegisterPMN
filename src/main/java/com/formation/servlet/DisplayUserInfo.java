@@ -29,7 +29,12 @@ public class DisplayUserInfo extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession( true );
-		System.out.println(request.getSession().getAttribute("userInfo"));
+		String[] user_info = (String[]) session.getAttribute("userInfo");
+		String[] values = (String[]) session.getAttribute("values");
+		System.out.println("display"+user_info[0]);
+		
+		request.setAttribute("user_info", user_info);
+		request.setAttribute("values", values);
 		this.getServletContext().getRequestDispatcher("/WEB-INF/displayUserInfo.jsp").forward(request, response);
 	}
 

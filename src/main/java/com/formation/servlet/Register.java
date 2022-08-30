@@ -34,10 +34,11 @@ public class Register extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Utils utils = new Utils();
-		String user_info[] = new String[12];
+		String user_info[] = new String[9];
 		
-		boolean saisie_valid = false;
-		boolean checkFName ,error_fname= false, checkLName ,error_lname= false, checkMail, error_mail = false, checkTel, error_tel = false, check_psw, error_psw = false, error_equals_psw = false;
+		boolean saisie_valid = false, registered=false;
+		boolean checkFName ,error_fname= false, checkLName ,error_lname= false, checkMail, error_mail = false, checkTel, error_tel = false, check_psw, 		error_psw = false, error_equals_psw = false;
+		
 		if(request.getParameter("bregister")!=null ) {
 			String lname=request.getParameter("ilname");
 			String fname=request.getParameter("ifname");
@@ -98,24 +99,34 @@ public class Register extends HttpServlet {
 					}
 				}
 				user_info[7] = country;
-				System.out.println(country);
 				
-				
+				String list;
 				for(int i = 0; i < values.length; i++) {
-					System.out.println(values[i]);
+					
+					user_info[8] = values[i];
 				}
 				
 			}catch(Exception ex) {
 				ex.printStackTrace();
 			}
+			for(int i = 0; i < user_info.length; i++) {
+				System.out.println(user_info[i]);
+			}
+			for(int i = 0; i < values.length; i++) {
+				System.out.println(values[i]);
+			}
 			HttpSession session = request.getSession( true );
 			
 	        session.setAttribute( "userInfo", user_info );
 	        session.setAttribute( "values", values);
-	        
+	        registered = true;
 			response.sendRedirect("DisplayUserInfo");
 		}
+		if(registered == false) {
 		this.getServletContext().getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);
+		}
+		
+		
 	}
 
 	/**

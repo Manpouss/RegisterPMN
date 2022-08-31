@@ -9,15 +9,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<% if((boolean)session.getAttribute("isConnected")==true){ 
-
-          String id = String.valueOf((Integer)session.getAttribute("usernameid"));
-          UserDAO user_dao = new UserDAO();
-		  User current_user= user_dao.getById(Integer.parseInt(id));
-	}                    	
-                             	
-    %>
-    <h1>Bonjour <%= current_user.getUsername() %> </h1>
 	<% 
 		String[] user_info = (String[])request.getAttribute("user_info"); 
 		String[] values = (String[])request.getAttribute("values");

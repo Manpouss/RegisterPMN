@@ -2,6 +2,7 @@ package com.formation.servlet;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.ServletException;
@@ -10,7 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSession;
+
+import com.formation.classes.User;
+import com.formation.model.UserDAO;
+import com.formation.services.Database;
 
 import utils.Utils;
 
@@ -33,8 +37,12 @@ public class Register extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Database.Connect();
 		Utils utils = new Utils();
+		UserDAO u_dao = new UserDAO();
 		String user_info[] = new String[9];
+		ArrayList<User> users = u_dao.getAll();
+		System.out.println(users.size());
 		
 		boolean saisie_valid = false, registered=false;
 		boolean checkFName ,error_fname= false, checkLName ,error_lname= false, checkMail, error_mail = false, checkTel, error_tel = false, check_psw, 		error_psw = false, error_equals_psw = false;
@@ -115,6 +123,9 @@ public class Register extends HttpServlet {
 			for(int i = 0; i < values.length; i++) {
 				System.out.println(values[i]);
 			}
+			
+			User user = new User(user_info[0], user_info[6]);
+			u_dao.save(user);
 			HttpSession session = request.getSession( true );
 			
 	        session.setAttribute( "userInfo", user_info );

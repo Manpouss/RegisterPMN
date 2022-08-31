@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@page import="com.formation.classes.User"%> 
+<%@page import="com.formation.model.UserDAO"%> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,12 +9,21 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<% if((boolean)session.getAttribute("isConnected")==true){ 
+
+          String id = String.valueOf((Integer)session.getAttribute("usernameid"));
+          UserDAO user_dao = new UserDAO();
+		  User current_user= user_dao.getById(Integer.parseInt(id));
+	}                    	
+                             	
+    %>
+    <h1>Bonjour <%= current_user.getUsername() %> </h1>
 	<% 
 		String[] user_info = (String[])request.getAttribute("user_info"); 
 		String[] values = (String[])request.getAttribute("values");
 	
 	%>
-	<form name="registerForm" id="register_form" method="post">
+	
 		<fieldset id="mainTitleF">
 			<legend id="mainTitleL">Inscription</legend>
 			<div class="row">
@@ -95,8 +106,8 @@
 	             </div>	
 	
 	         </div>
-	         
+	         <a class="btn btn-main color-2" href="Login" style="margin-left:1em;"><span>Se connecter</span></a>
          </fieldset>
-	</form>
+	
 </body>
 </html>

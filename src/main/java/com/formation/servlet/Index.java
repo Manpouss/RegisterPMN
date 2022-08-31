@@ -1,7 +1,6 @@
 package com.formation.servlet;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,17 +8,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.formation.services.Database;
+
 /**
- * Servlet implementation class DisplayUserInfo
+ * Servlet implementation class Index
  */
-@WebServlet("/DisplayUserInfo")
-public class DisplayUserInfo extends HttpServlet {
+@WebServlet("/Index")
+public class Index extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DisplayUserInfo() {
+    public Index() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,18 +29,14 @@ public class DisplayUserInfo extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Database.Connect();
 		HttpSession session = request.getSession( true );
-		String[] user_info = (String[]) session.getAttribute("userInfo");
-		String[] values = (String[]) session.getAttribute("values");
-		if(session.getAttribute("isConnected")==null || String.valueOf(session.getAttribute("usernameid")).equals("0") || session.getAttribute("usernameid")==null ) {
+		if(session.getAttribute("isConnected")==null || String.valueOf(session.getAttribute("userid")).equals("0") || session.getAttribute("userid")==null ) {
 			session.setAttribute( "isConnected", false );
 		}else {
 			session.setAttribute( "isConnected", true );
 		}
-		
-		request.setAttribute("user_info", user_info);
-		request.setAttribute("values", values);
-		this.getServletContext().getRequestDispatcher("/WEB-INF/displayUserInfo.jsp").forward(request, response);
+		request.getRequestDispatcher( "/WEB-INF/index.jsp" ).forward( request, response );
 	}
 
 	/**
